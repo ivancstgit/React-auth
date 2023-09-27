@@ -9,8 +9,6 @@ import RequireAuth from "./Components/RequireAuth";
 import Unauthorized from "./Components/Unauthorized";
 import Home from "./Components/Home";
 import Admin from "./Components/Admin";
-import Lounge from "./Components/Lounge";
-
 const ROLES = {
   'User': 'user',
   'Admin': 'admin'
@@ -18,9 +16,8 @@ const ROLES = {
 
 
 function App() {
+  
   return (
-    <main className='App'>
-
       <Routes>
         <Route path="/" element={<Layout />}>
           {/* public routes */}
@@ -30,7 +27,7 @@ function App() {
           <Route path="unauthorized" element={<Unauthorized />} />
 
           {/* we want to protect these routes */}
-          <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
+          <Route element={<RequireAuth allowedRoles={[ROLES.User, ROLES.Admin]} />}>
             <Route path="/" element={<Home />} />
           </Route>
 
@@ -38,15 +35,10 @@ function App() {
             <Route path="admin" element={<Admin />} />
           </Route>
 
-          <Route element={<RequireAuth allowedRoles={[ROLES.Editor, ROLES.Admin]} />}>
-            <Route path="lounge" element={<Lounge />} />
-          </Route>
-
           {/* catch all */}
-          <Route path="*" element={<Missing />} />
+         <Route path="*" element={<Missing />} />
         </Route>
       </Routes>
-    </main>
   );
 }
 

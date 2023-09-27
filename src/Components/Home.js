@@ -15,19 +15,21 @@ const Home = () => {
 
     return (
         <section>
-            <h1>Home</h1>
+            <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+            <h1 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Home</h1>
             <br />
-            <p>You are logged in!</p>
+            <p className="mt-10 text-center text-sm text-gray-500">
+                You are logged in!<br />
+            <span className="line">
+            <Link className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+                    to="/admin">Go to the Admin page</Link>
+            </span>
+            </p>
             <br />
-            <Link to="/editor">Go to the Editor page</Link>
-            <br />
-            <Link to="/admin">Go to the Admin page</Link>
-            <br />
-            <Link to="/lounge">Go to the Lounge</Link>
-            <br />
-            <Link to="/linkpage">Go to the link page</Link>
             <div className="flexGrow">
-                <button onClick={logout}>Sign Out</button>
+                <button className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" 
+                        onClick={logout}>Sign Out</button>
+            </div>
             </div>
         </section>
     )
