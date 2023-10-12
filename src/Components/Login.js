@@ -3,7 +3,7 @@ import useAuth from "../hooks/useAuth";
 
 import axios from '../api/axios';
 import { Link, useNavigate, useLocation } from "react-router-dom";
-const LOGIN_URL = '/auth';
+const LOGIN_URL = '/login';
 
 
 
@@ -35,7 +35,7 @@ const Login = () => {
     const formSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.get(LOGIN_URL,
+            const response = await axios.post(LOGIN_URL,
                 {
                     username: user,
                     password: passw,
@@ -47,9 +47,11 @@ const Login = () => {
                 });
 
             console.log(JSON.stringify(response?.data));
-            const accessToken = response?.data?.accessToken;
-            const roles = response?.data?.roles;
-            setAuth({ user, passw, roles, accessToken })
+            console.log(response?.data);
+            
+            const access_token = response?.data?.access_token;
+            //const roles = response?.data?.roles;
+            setAuth({ user, passw, /*roles,*/ access_token })
             setUser("");
             setPassw("");
 
