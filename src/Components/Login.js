@@ -13,6 +13,7 @@ const Login = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
+    
     const from = location.state?.from?.pathname || "/";
 
     const userRef = useRef();
@@ -35,10 +36,8 @@ const Login = () => {
     const formSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(LOGIN_URL,
+            const response = await axios.post(LOGIN_URL, JSON.stringify({ username: user, password: passw}),
                 {
-                    username: user,
-                    password: passw,
                     headers: {
                         Authorization: 'Basic ' + btoa(user + ':' + passw),
                         "Content-Type": 'application/json',
@@ -46,11 +45,12 @@ const Login = () => {
                     withCredentials: true,
                 });
 
-            console.log(JSON.stringify(response?.data));
-            console.log(response?.data);
+            //  console.log(JSON.stringify(response?.data));
+            //console.log(response?.data);
             
             const access_token = response?.data?.access_token;
             //const roles = response?.data?.roles;
+            localStorage.setItem('access_token', access_token);
             setAuth({ user, passw, /*roles,*/ access_token })
             setUser("");
             setPassw("");

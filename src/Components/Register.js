@@ -55,10 +55,11 @@ const Register = () => {
             return;
         }
 
-
+        const mail = "casativan@gmail.com";
+        const id_empresa = 1;
         try {
             const response = await axios.post(REGISTER_URL,
-                JSON.stringify({ username: user, password: pwd }),
+                JSON.stringify({ username: user, password: pwd, mail: mail, id_empresa: id_empresa}),
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true

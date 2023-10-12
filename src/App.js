@@ -4,15 +4,16 @@ import Register from './Components/Register'
 import { Route, Routes } from 'react-router-dom';
 import Missing from "./Components/Missing";
 import Layout from "./Components/Layout";
-import LinkPage from "./Components/LinkPage";
 import RequireAuth from "./Components/RequireAuth";
 import Unauthorized from "./Components/Unauthorized";
 import Home from "./Components/Home";
-import Admin from "./Components/Admin";
+import LinkPageEmpresas from "./Components/Cruds/Empresas/LinkPageEmpresas";
+import LinkPageLicencias from "./Components/Cruds/Licencias/LinkPageLicencias";
+/*
 const ROLES = {
   'User': 'user',
   'Admin': 'admin'
-}
+}*/
 
 
 function App() {
@@ -23,17 +24,18 @@ function App() {
           {/* public routes */}
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
-          <Route path="linkpage" element={<LinkPage />} />
           <Route path="unauthorized" element={<Unauthorized />} />
 
+          
           {/* we want to protect these routes */}
-          <Route element={<RequireAuth allowedRoles={[ROLES.User, ROLES.Admin]} />}>
+          {/*separar en route si necesito diferentes pemirsos segun roles*/}
+          <Route element={<RequireAuth /*allowedRoles={[ROLES.User, ROLES.Admin]}*/ />}>
             <Route path="/" element={<Home />} />
+            <Route path="empresas" element={<LinkPageEmpresas />} />
+            <Route path="licencias" element={<LinkPageLicencias />} />
+
           </Route>
 
-          <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
-            <Route path="admin" element={<Admin />} />
-          </Route>
 
           {/* catch all */}
          <Route path="*" element={<Missing />} />

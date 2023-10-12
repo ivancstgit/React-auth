@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 
-const LinkPage = () => {
+const LinkPageLicencias = () => {
     return (
         <section>
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -22,4 +22,4 @@ const LinkPage = () => {
     )
 }
 
-export default LinkPage
+export default LinkPageLicencias
