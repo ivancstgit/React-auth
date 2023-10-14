@@ -1,16 +1,7 @@
-import { useNavigate, Link } from "react-router-dom";
-import { useContext } from "react";
-import AuthContext from "../Context/AuthProvider";
+import { Link } from "react-router-dom";
+
 
 const Home = () => {
-    const { setAuth } = useContext(AuthContext);
-    const navigate = useNavigate();
-
-    const logout = async () => {
-        setAuth({});
-        localStorage.removeItem('access_token');
-        navigate('/login');
-    }
 
     return (
         <section>

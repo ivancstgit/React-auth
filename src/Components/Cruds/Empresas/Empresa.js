@@ -5,6 +5,7 @@ import { Link, useParams } from 'react-router-dom';
 import axios from '../../../api/axios';
 import { faBackward } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Loading from '../../Loading';
 
 function Empresa() {
   const [empresa, setEmpresa] = useState();
@@ -12,7 +13,7 @@ function Empresa() {
 
   useEffect(() => {
     getEmpresa();
-  }, []);
+  });
 
   const getEmpresa = async () => {
     const token = localStorage.getItem('access_token');
@@ -30,7 +31,7 @@ function Empresa() {
 
   return (
     <>
-
+       {!empresa && (<Loading/>)}
       {empresa && (
         <div className="h-full w-full flex flex-col mt-8 justify-center items-center">
           <h1 className='font-bold text-3xl'>Empresa {empresa.id_empresa}</h1>

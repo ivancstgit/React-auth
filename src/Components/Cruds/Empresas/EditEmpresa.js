@@ -7,6 +7,7 @@ import axios from '../../../api/axios';
 import { faBackward, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../../Loading';
 function EditEmpresa() {
     const [empresa, setEmpresa] = useState();
     const { id } = useParams();
@@ -20,7 +21,7 @@ function EditEmpresa() {
     
     useEffect(() => {
         getEmpresa();
-    }, []);
+    });
 
     const getEmpresa = async () => {
 
@@ -51,7 +52,7 @@ function EditEmpresa() {
     const EditEmpresa = async () => {
         
         const token = localStorage.getItem('access_token');
-        const respuesta = await axios.put(`api/empresa/${id}`, body, {
+        await axios.put(`api/empresa/${id}`, body, {
             headers: {
                 Authorization: 'Bearer ' + token,
                 "Content-Type": 'application/json',
@@ -67,7 +68,7 @@ function EditEmpresa() {
 
     return (
         <>
-
+            {!empresa && (<Loading/>)}
             {empresa && (
                 <div className="h-full w-full flex flex-col mt-8 justify-center items-center">
                     <h1 className='font-bold text-3xl'>Empresa {empresa.id_empresa}</h1>

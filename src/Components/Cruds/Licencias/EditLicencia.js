@@ -5,6 +5,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from '../../../api/axios';
 import { faBackward, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Loading from '../../Loading';
 
 function EditLicencia() {
   const [licencia, setLicencia] = useState();
@@ -73,7 +74,7 @@ function EditLicencia() {
 
   return (
     <>
-
+      {!licencia && (<Loading/>)}
       {licencia && (
         <div className="h-full w-full flex flex-col mt-8 justify-center items-center">
           <h1 className='font-bold text-3xl'>Licencia {licencia.id}</h1>
