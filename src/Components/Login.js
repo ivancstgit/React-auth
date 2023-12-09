@@ -3,9 +3,8 @@ import useAuth from "../hooks/useAuth";
 
 import axios from '../api/axios';
 import { Link, useNavigate, useLocation } from "react-router-dom";
-const LOGIN_URL = '/auth';
 
-
+const LOGIN_URL = '/login';
 
 const Login = () => {
 
@@ -13,6 +12,7 @@ const Login = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
+    
     const from = location.state?.from?.pathname || "/";
 
     const userRef = useRef();
@@ -24,7 +24,10 @@ const Login = () => {
 
 
     useEffect(() => {
-        userRef.current.focus();
+        if(userRef.current !== undefined){
+            userRef.current.focus();
+        }
+        
     }, [])
 
     useEffect(() => {
@@ -35,10 +38,8 @@ const Login = () => {
     const formSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.get(LOGIN_URL,
+            const response = await axios.post(LOGIN_URL, JSON.stringify({ username: user, password: passw}),
                 {
-                    username: user,
-                    password: passw,
                     headers: {
                         Authorization: 'Basic ' + btoa(user + ':' + passw),
                         "Content-Type": 'application/json',
@@ -46,10 +47,13 @@ const Login = () => {
                     withCredentials: true,
                 });
 
-            console.log(JSON.stringify(response?.data));
-            const accessToken = response?.data?.accessToken;
-            const roles = response?.data?.roles;
-            setAuth({ user, passw, roles, accessToken })
+            //  console.log(JSON.stringify(response?.data));
+            //console.log(response?.data);
+            
+            const access_token = response?.data?.access_token;
+            //const roles = response?.data?.roles;
+            localStorage.setItem('access_token', access_token);
+            setAuth({ user, passw, /*roles,*/ access_token })
             setUser("");
             setPassw("");
 
@@ -71,6 +75,16 @@ const Login = () => {
         }
     }
 
+    const [authenticated, setAuthenticated] = useState(false);
+
+    useEffect(()=>{
+        if(localStorage.getItem('access_token') !== null){
+        setAuthenticated(true)
+        }else{
+            setAuthenticated(false)
+        };
+    }, [])
+
     return (
         <>
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -80,7 +94,9 @@ const Login = () => {
                         src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                         alt="Your Company"
                     />
-                    <section>
+                
+                    {!authenticated ? (
+                        <section>
                         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                             <p ref={errRef} className=
                                 {errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
@@ -109,7 +125,8 @@ const Login = () => {
                                                 setPassw(e.target.value)} value={passw} required />
                                     </div>
                                 </div>
-                                <button className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign In</button>
+                                <button className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                                    Sign In</button>
                             </form>
                             <p className="mt-10 text-center text-sm text-gray-500">
                                 Need an Account?<br />
@@ -119,6 +136,22 @@ const Login = () => {
                             </p>
                         </div>
                     </section>
+                    ): (
+<div className="grid min-h-full place-items-center bg-white px-6 py-12 sm:py-32 lg:px-8">
+          <div className="text-center">
+            <h1 className="text-xl font-bold tracking-tight text-gray-900 sm:text-5xl">You are already log in</h1>
+            <p className="mt-6 text-base leading-7 text-gray-600">Sorry, we couldn’t find the page you’re looking for.</p>
+            <div className="mt-10 flex items-center justify-center gap-x-6">
+              <Link to="/"
+                className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              >
+                Go back home
+              </Link>
+            </div>
+          </div>
+        </div>
+                    )}
+                    
 
 
 
